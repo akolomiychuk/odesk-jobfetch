@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'odesk/jobfetch/version'
+require 'odesk_jobfetch/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'odesk-jobfetch'
-  spec.version       = Odesk::Jobfetch::VERSION
+  spec.version       = OdeskJobfetch::VERSION
   spec.authors       = ['Anton Kolomiychuk']
   spec.email         = ['kolomiychuk.anton+gh@gmail.com']
   spec.summary       = 'Get Odesk jobs from on-site search.'
@@ -16,6 +16,8 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
+
+  spec.add_runtime_dependency 'mechanize', '~> 2.7'
 
   spec.add_development_dependency 'bundler', '~> 1.5'
   spec.add_development_dependency 'rake'
