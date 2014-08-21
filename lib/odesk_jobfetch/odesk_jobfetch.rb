@@ -1,9 +1,10 @@
-require 'odesk_jobfetch/version'
 require 'mechanize'
+require 'odesk_jobfetch/version'
 
 class OdeskJobfetch
-  LOGIN_URL = 'https://www.odesk.com/login'
-  SEARCH_URL = 'https://www.odesk.com/jobs'
+  BASE_URL = 'https://www.odesk.com'
+  LOGIN_URL = BASE_URL + '/login'
+  SEARCH_URL = BASE_URL + '/jobs'
 
   def initialize(proxy = {})
     @agent = Mechanize.new
@@ -17,8 +18,29 @@ class OdeskJobfetch
     form.submit
   end
 
-  def fetch
-    page = @agent.get(SEARCH_URL)
-    # TODO@akolomiychuk: Implement
+  def fetch(query, simple_format = false)
+    resp_raw = @agent.get(
+      SEARCH_URL, [q: query], nil,
+      { 'accept' => 'application/json', 'x-requested-with' => 'XMLHttpRequest' }
+    )
+    resp = JSON.parse(resp_raw.body)
+    jobs = resp['jobs_raw_data']['jobs']
+    simple_format ? simple_format(jobs) : jobs
+  end
+
+  private
+
+  def simple_format(jobs)
+    jobs.map do |j|
+      {
+        title: j['title'],
+        snippet: j['snippet'],
+        job_type: j['job_type'],
+        budget: j['budget'],
+        workload: j['workload'],
+        url: j['url'],
+        publish_time: Date.parse(j['publish_time'])
+      }
+    end
   end
 end
