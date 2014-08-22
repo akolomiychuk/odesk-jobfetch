@@ -19,11 +19,16 @@ class OdeskJobfetch
   end
 
   def fetch(query, simple_format = false)
-    resp_raw = @agent.get(
+    page = @agent.get(
       SEARCH_URL, [q: query], nil,
       { 'accept' => 'application/json', 'x-requested-with' => 'XMLHttpRequest' }
     )
-    resp = JSON.parse(resp_raw.body)
+
+    if page.response['content-type'] != 'application/json'
+      fail 'Forgot to authorize?'
+    end
+
+    resp = JSON.parse(page.body)
     jobs = resp['jobs_raw_data']['jobs']
     simple_format ? simple_format(jobs) : jobs
   end
