@@ -18,9 +18,9 @@ class OdeskJobfetch
     form.submit
   end
 
-  def fetch(query, simple_format = false)
+  def fetch(params, simple_format = false)
     page = @agent.get(
-      SEARCH_URL, [q: query], nil,
+      SEARCH_URL, params, nil,
       { 'accept' => 'application/json', 'x-requested-with' => 'XMLHttpRequest' }
     )
 

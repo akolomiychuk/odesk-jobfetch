@@ -1,7 +1,8 @@
 # odesk-jobfetch
 
 Odesk API have a delay for showing new jobs relatively to on-site search.
-This small tool fetches jobs using on-site search, so you'll be always the first who receive notification about new jobs.
+This small tool fetches jobs using on-site search, so you'll be always the first
+who receive notification about new jobs.
 
 ## Installation
 
@@ -23,7 +24,7 @@ Or install it yourself as:
 oj = OdeskJobfetch.new
 oj.authorize('username', 'password')
 # You can get a query on Odesk search page.
-query = 'ruby&sortBy=s_time+desc&c1[]=Web Development'
+query = { q: 'ruby', sortBy: 's_time+desk', c1: 'Web Development' }
 jobs = oj.fetch(query) # You can pass true as second arg to get it in simpler format.
 ```
 
