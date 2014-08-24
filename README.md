@@ -8,7 +8,7 @@ who receive notification about new jobs.
 
 Add this line to your application's Gemfile:
 
-    gem 'odesk-jobfetch'
+    gem 'odesk-jobfetch', require: 'odesk_jobfetch'
 
 And then execute:
 
